@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    table {
+        border-collapse: separate;
+        border-spacing: 0 0.5rem;
+    }
+    tr {
+        @apply bg-gray-100;
+    }
+    th,
+    td {
+        padding: 0.6rem 2rem;
+        text-align: left;
+    }
+}
+
+@layer utilities {
+    .green-btn {
+        @apply px-4 py-3 rounded-3xl font-medium bg-green-700 hover:bg-green-800 text-white;
+    }
+
+    .blue-btn {
+        @apply px-4 py-3 rounded-3xl font-medium bg-blue-700 hover:bg-blue-800 text-white;
+    }
+
+    .red-btn {
+        @apply px-4 py-3 rounded-3xl font-medium bg-red-700 hover:bg-red-800 text-white;
+    }
+
+    .blue-icon-btn {
+        @apply p-2 rounded-full bg-blue-700 hover:bg-blue-800 text-white;
+    }
+
+    .red-icon-btn {
+        @apply p-2 rounded-full bg-red-700 hover:bg-red-800 text-white;
+    }
+}
