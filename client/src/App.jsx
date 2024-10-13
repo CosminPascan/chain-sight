@@ -4,24 +4,44 @@ import TokensPage from './pages/TokensPage'
 import TracklistsPage from './pages/TracklistsPage'
 import { TracklistsProvider } from './context/TracklistsContext'
 import TrackPage from './pages/TrackPage'
+import Login from './components/Login'
+import ProtectedRoute from './components/ProtectedRoute'
+import Register from './components/Register'
 
 function App() {
     return (
         <BrowserRouter>
             <Navbar />
             <Routes>
-                <Route path='/' element={<p>SALUT</p>} />
-                <Route path='/cryptocurrencies' element={<TokensPage />} />
+                <Route
+                    path='/cryptocurrencies'
+                    element={
+                        <ProtectedRoute>
+                            <TokensPage />
+                        </ProtectedRoute>
+                    }
+                />
                 <Route
                     path='/tracklists'
                     element={
-                        <TracklistsProvider>
-                            <TracklistsPage />
-                        </TracklistsProvider>
+                        <ProtectedRoute>
+                            <TracklistsProvider>
+                                <TracklistsPage />
+                            </TracklistsProvider>
+                        </ProtectedRoute>
                     }
                 />
-                <Route path='/track' element={<TrackPage />} />
-                <Route path='*' element={<Navigate to='/' />} />
+                <Route
+                    path='/track'
+                    element={
+                        <ProtectedRoute>
+                            <TrackPage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route path='/login' element={<Login />} />
+                <Route path='/register' element={<Register />} />
+                <Route path='*' element={<Navigate to='/login' />} />
             </Routes>
         </BrowserRouter>
     )

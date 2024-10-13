@@ -12,12 +12,12 @@ public class ContractServices : IContractServices
         _context = context;
     }
 
-    public ICollection<Contract> GetAllContracts()
+    public ICollection<Contract> GetAll()
     {
         return _context.Contracts.ToList();
     }
 
-    public ICollection<Contract> GetAllContractsByChain(string chain)
+    public ICollection<Contract> GetAllByChain(string chain)
     {
         return _context.Contracts.Where(c => c.Chain == chain).ToList();
     }

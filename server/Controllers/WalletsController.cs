@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
 using server.Mappers;
@@ -16,7 +17,7 @@ public class WalletsController : ControllerBase
         _walletServices = walletServices;
     }
 
-    [HttpGet("{tracklistId}")]
+    [HttpGet("{tracklistId}"), Authorize]
     public IActionResult GetWalletsByTracklistId(int tracklistId)
     {
         var wallets = _walletServices.GetAll(tracklistId).ToListDTO();
@@ -24,7 +25,7 @@ public class WalletsController : ControllerBase
         return Ok(wallets);
     }
 
-    [HttpGet("single/{id}")]
+    [HttpGet("single/{id}"), Authorize]
     public IActionResult GetWallet(int id)
     {
         var wallet = _walletServices.GetById(id);
@@ -32,7 +33,7 @@ public class WalletsController : ControllerBase
         return Ok(wallet.ToDTO());
     }
 
-    [HttpPost("{tracklistId}")]
+    [HttpPost("{tracklistId}"), Authorize]
     public IActionResult PostWallet(int tracklistId, WalletDTO walletDTO)
     {
         var wallet = walletDTO.ToItemWithTracklistId(tracklistId);
@@ -42,7 +43,7 @@ public class WalletsController : ControllerBase
         return CreatedAtAction(nameof(GetWallet), new { id = wallet.Id }, wallet.ToDTO());
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize]
     public IActionResult DeleteWallet(int id)
     {
         var exists = _walletServices.Exists(id);
@@ -54,7 +55,7 @@ public class WalletsController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}"), Authorize]
     public IActionResult PutWallet(int id, WalletDTO walletDTO)
     {
         var exists = _walletServices.Exists(id);

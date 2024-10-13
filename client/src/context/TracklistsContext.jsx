@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react'
-import { SelectTracklistProvider } from './SelectTracklistContext'
+import { SelectedTracklistProvider } from './SelectedTracklistContext'
 
 const TracklistsContext = createContext()
 
@@ -15,13 +15,13 @@ const tracklistsReducer = (state, action) => {
             }
         case 'UPDATE_TRACKLIST':
             return {
-                tracklists: state.tracklists.map((t) => t.id === action.payload.id ? action.payload : t)
+                tracklists: state.tracklists.map((t) =>
+                    t.id === action.payload.id ? action.payload : t
+                ),
             }
         case 'DELETE_TRACKLIST':
             return {
-                tracklists: state.tracklists.filter(
-                    (t) => t.id !== action.payload.id
-                ),
+                tracklists: state.tracklists.filter((t) => t.id !== action.payload.id),
             }
         default:
             return state
@@ -30,12 +30,12 @@ const tracklistsReducer = (state, action) => {
 
 const TracklistsProvider = ({ children }) => {
     const [state, dispatch] = useReducer(tracklistsReducer, {
-        tracklists: null,
+        tracklists: [],
     })
 
     return (
         <TracklistsContext.Provider value={{ ...state, dispatch }}>
-            <SelectTracklistProvider>{children}</SelectTracklistProvider>
+            <SelectedTracklistProvider>{children}</SelectedTracklistProvider>
         </TracklistsContext.Provider>
     )
 }

@@ -1,5 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using server.DTOs;
+using server.Mappers;
 using server.Services;
 
 namespace server.Controllers;
@@ -15,17 +16,11 @@ public class TokensController : ControllerBase
         _tokenServices = tokenServices;
     }
 
-    [HttpGet("all")]
-    public IActionResult GetAllTokens()
+    [HttpGet, Authorize]
+    public IActionResult GetTokens()
     {
-        var tokens = _tokenServices.GetAllTokens().Select(t => new TokenDto
-        {
-            CoinGeckoId = t.CoinGeckoId,
-            Symbol = t.Symbol,
-            Name = t.Name,
-            Image = t.Image
-        }).ToList();
+        var tokens = _tokenServices.GetAll().ToListDTO();
 
-        return Ok(new { tokens });
+        return Ok(tokens);
     }
 }

@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { useWalletsContext } from '../hooks/useWalletsContext'
-import { useTracklist } from '../hooks/useSelectTracklistContext'
-import { axiosInstance } from '../api/axios'
+import { useWalletsContext } from '../../hooks/useWalletsContext'
+import { useSelectedTracklist } from '../../hooks/useSelectedTracklistContext'
+import { axiosInstance } from '../../api/axios'
 
-const AddWalletForm = ({ setAddWalletVisible }) => {
+const AddWalletForm = ({ setAddWallet }) => {
     const [nickname, setNickname] = useState('')
     const [address, setAddress] = useState('')
 
     const { dispatch } = useWalletsContext()
 
-    const tracklist = useTracklist()
+    const tracklist = useSelectedTracklist()
 
     const createWallet = async () => {
         const response = await axiosInstance.post(
@@ -21,23 +21,24 @@ const AddWalletForm = ({ setAddWalletVisible }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await createWallet()
-        setNickname('')
-        setAddress('')
-        setAddWalletVisible(false)
+        try {
+            await createWallet()
+            setNickname('')
+            setAddress('')
+            setAddWallet(false)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
-        <div className='fixed w-full h-full top-0 left-0 flex items-center justify-center bg-gray-400 bg-opacity-70'>
-            <form
-                onSubmit={handleSubmit}
-                className='flex flex-col rounded-3xl space-y-10 px-10 py-10 bg-white'
-            >
-                <h1 className='text-center text-xl font-bold'>Add wallet</h1>
-                <div className='space-x-10 flex items-center justify-between'>
+        <div className='form-container'>
+            <form className='form' onSubmit={handleSubmit}>
+                <h1 className='title'>Add wallet</h1>
+                <div className='input-container'>
                     <label className='font-medium'>Wallet Nickname</label>
                     <input
-                        className='px-6 py-2 border border-solid rounded-md border-black outline-0'
+                        className='input'
                         type='text'
                         placeholder='Enter wallet nickname...'
                         value={nickname}
@@ -45,10 +46,10 @@ const AddWalletForm = ({ setAddWalletVisible }) => {
                         required
                     />
                 </div>
-                <div className='space-x-10 flex items-center justify-between'>
+                <div className='input-container'>
                     <label className='font-medium'>Wallet Address</label>
                     <input
-                        className='px-6 py-2 border border-solid rounded-md border-black outline-0'
+                        className='input'
                         type='text'
                         placeholder='Enter wallet address...'
                         value={address}
@@ -56,11 +57,14 @@ const AddWalletForm = ({ setAddWalletVisible }) => {
                         required
                     />
                 </div>
-                <div className='flex items-center justify-center space-x-14'>
-                    <button className='green-btn'>Create</button>
+                <div className='form-btns-container'>
+                    <button className='green-btn' type='submit'>
+                        Create
+                    </button>
                     <button
                         className='red-btn'
-                        onClick={() => setAddWalletVisible(false)}
+                        type='button'
+                        onClick={() => setAddWallet(false)}
                     >
                         Cancel
                     </button>

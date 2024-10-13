@@ -6,11 +6,9 @@ public class Token
 
     public string CoinGeckoId { get; set; }
 
-    public string Symbol { get; set; }
-
     public string Name { get; set; }
 
-    public string Image { get; set; }
+    public string Symbol { get; set; }
 
     public virtual ICollection<Contract> Contracts { get; set; }
 }

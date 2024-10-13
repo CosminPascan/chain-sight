@@ -24,9 +24,7 @@ public class TracklistServices : ITracklistServices
 
     public Tracklist GetById(int id)
     {
-        var tracklist = _context.Tracklists.FirstOrDefault(t => t.Id == id);
-
-        return tracklist;
+        return _context.Tracklists.FirstOrDefault(t => t.Id == id);
     }
 
     public void Create(Tracklist tracklist)

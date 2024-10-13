@@ -6,5 +6,5 @@ public class ContractDTO
 
     public string Chain { get; set; }
 
-    public TokenDto Token { get; set; }
+    public TokenDTO Token { get; set; }
 }

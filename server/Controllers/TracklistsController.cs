@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
 using server.Mappers;
@@ -16,17 +17,17 @@ public class TracklistsController : ControllerBase
         _tracklistServices = tracklistServices;
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public IActionResult GetTracklists()
     {
-        int userId = 1;
-
+        var userId = Convert.ToInt32(HttpContext.User.FindFirst("id").Value);
+       
         var tracklists = _tracklistServices.GetAll(userId).ToListDTO();
 
         return Ok(tracklists);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}"), Authorize]
     public IActionResult GetTracklist(int id)
     {
         var tracklist = _tracklistServices.GetById(id);
@@ -34,10 +35,10 @@ public class TracklistsController : ControllerBase
         return Ok(tracklist.ToDTO());
     }
 
-    [HttpPost]
+    [HttpPost, Authorize]
     public IActionResult PostTracklist(TracklistDTO tracklistDTO)
     {
-        int userId = 1;
+        var userId = Convert.ToInt32(HttpContext.User.FindFirst("id").Value);
 
         var tracklist = tracklistDTO.ToItemWithUserId(userId);
 
@@ -46,7 +47,7 @@ public class TracklistsController : ControllerBase
         return CreatedAtAction(nameof(GetTracklist), new { id = tracklist.Id }, tracklist.ToDTO());
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}"), Authorize]
     public IActionResult DeleteTracklist(int id)
     {
         var exists = _tracklistServices.Exists(id);
@@ -58,7 +59,7 @@ public class TracklistsController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}"), Authorize]
     public IActionResult PutTracklist(int id, TracklistDTO tracklistDTO)
     {
         var exists = _tracklistServices.Exists(id);

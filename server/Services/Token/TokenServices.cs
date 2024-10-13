@@ -12,7 +12,7 @@ public class TokenServices : ITokenServices
         _context = context;
     }
 
-    public ICollection<Token> GetAllTokens()
+    public ICollection<Token> GetAll()
     {
         return _context.Tokens.ToList();
     }

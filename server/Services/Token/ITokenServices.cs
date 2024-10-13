@@ -4,5 +4,5 @@ namespace server.Services;
 
 public interface ITokenServices 
 {
-    ICollection<Token> GetAllTokens();
+    ICollection<Token> GetAll();
 }

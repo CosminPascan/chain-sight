@@ -4,7 +4,7 @@ namespace server.Services;
 
 public interface IContractServices
 {
-    ICollection<Contract> GetAllContracts();
+    ICollection<Contract> GetAll();
 
-    ICollection<Contract> GetAllContractsByChain(string chain);
+    ICollection<Contract> GetAllByChain(string chain);
 }

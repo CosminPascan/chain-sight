@@ -1,5 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using server.DTOs;
+using server.Mappers;
 using server.Services;
 
 namespace server.Controllers;
@@ -15,36 +16,18 @@ public class ContractsController : ControllerBase
         _contractServices = contractServices;
     }
 
-    [HttpGet("all")]
-    public IActionResult GetAllContracts()
+    [HttpGet, Authorize]
+    public IActionResult GetContracts()
     {
-        var contracts = _contractServices.GetAllContracts().Select(c => new ContractDTO {
-            Address = c.Address,
-            Chain = c.Chain,
-            Token = new TokenDto {
-                CoinGeckoId = c.Token.CoinGeckoId,
-                Symbol = c.Token.Symbol,
-                Name = c.Token.Name,
-                Image = c.Token.Image
-            }
-        }).ToList();
+        var contracts = _contractServices.GetAll().ToListDTO();
 
         return Ok(contracts);
     }
 
-    [HttpGet("{chain}")]
-    public IActionResult GetAllContractsByChain(string chain)
+    [HttpGet("{chain}"), Authorize]
+    public IActionResult GetContractsByChain(string chain)
     {
-        var contracts = _contractServices.GetAllContractsByChain(chain).Select(c => new ContractDTO {
-            Address = c.Address,
-            Chain = c.Chain,
-            Token = new TokenDto {
-                CoinGeckoId = c.Token.CoinGeckoId,
-                Symbol = c.Token.Symbol,
-                Name = c.Token.Name,
-                Image = c.Token.Image
-            }
-        }).ToList();
+        var contracts = _contractServices.GetAllByChain(chain).ToListDTO();
 
         return Ok(contracts);
     }
